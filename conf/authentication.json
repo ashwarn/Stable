@@ -8,13 +8,64 @@
                 "keystoreType" : "&{openidm.keystore.type}",
                 "keystoreFile" : "&{openidm.keystore.location}",
                 "keystorePassword" : "&{openidm.keystore.password}",
-                "maxTokenLifeMinutes" : "120",
-                "tokenIdleTimeMinutes" : "30",
                 "sessionOnly" : true,
-                "isHttpOnly" : true
+                "isHttpOnly" : true,
+                "maxTokenLifeMinutes" : "15",
+                "tokenIdleTimeMinutes" : "15"
             }
         },
         "authModules" : [
+            {
+                "name" : "OAUTH_CLIENT",
+                "properties" : {
+                    "augmentSecurityContext" : {
+                        "type" : "text/javascript",
+                        "globals" : {
+                            "sessionValidationBaseEndpoint" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com/openam/json/sessions/"
+                        },
+                        "file" : "auth/amSessionCheck.js"
+                    },
+                    "propertyMapping" : {
+                        "authenticationId" : "uid",
+                        "userRoles" : "authzRoles"
+                    },
+                    "defaultUserRoles" : [
+                        "openidm-authorized"
+                    ],
+                    "idpConfig" : {
+                        "provider" : "OPENAM",
+                        "icon" : "<button class=\"btn btn-lg btn-default btn-block btn-social-provider\"><img src=\"images/forgerock_logo.png\">Sign In</button>",
+                        "scope" : [
+                            "openid"
+                        ],
+                        "authenticationIdKey" : "sub",
+                        "clientId" : "openidentity",
+                        "clientSecret" : {
+                            "$crypto" : {
+                                "type" : "x-simple-encryption",
+                                "value" : {
+                                    "cipher" : "AES/CBC/PKCS5Padding",
+                                    "salt" : "FFzH4H24ZUOnldOwun2rfQ==",
+                                    "data" : "Af/F9PI0hFv7EJkxFkQ8UA==",
+                                    "iv" : "/bVA9WSoXmXJwiZ5g+HjFg==",
+                                    "key" : "openidm-sym-default",
+                                    "mac" : "TGvAxa7zUrqP9fROgBN0gQ=="
+                                }
+                            }
+                        },
+                        "authorizationEndpoint" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com:443/openam/oauth2/authorize",
+                        "tokenEndpoint" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com:443/openam/oauth2/access_token",
+                        "endSessionEndpoint" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com:443/openam/oauth2/connect/endSession",
+                        "wellKnownEndpoint" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com/openam/oauth2/.well-known/openid-configuration",
+                        "redirectUri" : "https://openidm-abrdemo-sandbox-43.adop.skydentity.com/oauthReturn/",
+                        "configClass" : "org.forgerock.oauth.clients.oidc.OpenIDConnectClientConfiguration",
+                        "displayIcon" : "forgerock",
+                        "enabled" : true
+                    },
+                    "queryOnResource" : "system/OpenDJ/account"
+                },
+                "enabled" : true
+            },
             {
                 "name" : "STATIC_USER",
                 "properties" : {
@@ -55,7 +106,7 @@
                     },
                     "defaultUserRoles" : [ ]
                 },
-                "enabled" : true
+                "enabled" : false
             },
             {
                 "name" : "INTERNAL_USER",
@@ -80,7 +131,7 @@
                     ],
                     "allowedAuthenticationIdPatterns" : [ ]
                 },
-                "enabled" : true
+                "enabled" : false
             },
             {
                 "name" : "SOCIAL_PROVIDERS",
@@ -97,7 +148,7 @@
                         "userRoles" : "authzRoles"
                     }
                 },
-                "enabled" : true
+                "enabled" : false
             },
             {
                 "name" : "STATIC_USER",

@@ -4,17 +4,17 @@
     "tokenEndpoint" : "https://www.googleapis.com/oauth2/v4/token",
     "userInfoEndpoint" : "https://www.googleapis.com/oauth2/v3/userinfo",
     "wellKnownEndpoint" : "https://accounts.google.com/.well-known/openid-configuration",
-    "clientId" : "",
+    "clientId" : "728531419671-pq2f38ivh5s2g2fldl7h2mr66ib2o3um.apps.googleusercontent.com",
     "clientSecret" : {
         "$crypto" : {
             "type" : "x-simple-encryption",
             "value" : {
                 "cipher" : "AES/CBC/PKCS5Padding",
-                "salt" : "g6Hyl73Urqzf37xbzz8kpg==",
-                "data" : "Z3XS8gfgPT+w5jZ1BpK9Sw==",
-                "iv" : "GvJyn3C8js/BvPiaMw6b0g==",
+                "salt" : "jH0RBuwELugjD5BHaZAEmg==",
+                "data" : "qR4FjT3ZlmW2NMmBXKzEbeED2qLBqVXCETFwxX58TqI=",
+                "iv" : "quItFZWIPncRQl8r4ERu0A==",
                 "key" : "openidm-sym-default",
-                "mac" : "bmJrEPj7Oio7CjLXXsDz6g=="
+                "mac" : "66NGPPYlsJ+RVkRgaxIfZQ=="
             }
         }
     },
@@ -23,10 +23,9 @@
         "iconClass" : "fa-google",
         "iconFontColor" : "white",
         "buttonImage" : "images/g-logo.png",
-        "buttonClass" : "",
+        "buttonDisplayName" : "Google",
         "buttonCustomStyle" : "background-color: #fff; color: #757575; border-color: #ddd;",
-        "buttonCustomStyleHover" : "color: #6d6d6d; background-color: #eee; border-color: #ccc;",
-        "buttonDisplayName" : "Google"
+        "buttonCustomStyleHover" : "color: #6d6d6d; background-color: #eee; border-color: #ccc;"
     },
     "scope" : [
         "openid",

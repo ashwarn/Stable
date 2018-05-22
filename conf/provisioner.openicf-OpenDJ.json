@@ -15,11 +15,11 @@
                 "type" : "x-simple-encryption",
                 "value" : {
                     "cipher" : "AES/CBC/PKCS5Padding",
-                    "salt" : "Dh7LvMTbS9mP4knVUHnMGg==",
-                    "data" : "J31mqt7JYep47Gng3NxRMQ==",
-                    "iv" : "iifDvM6hp3uvRenEeUeeag==",
+                    "salt" : "+jCOmpeK9spZmJ5qj5PGkg==",
+                    "data" : "iok+0d6BSHpxkE9VshutMw==",
+                    "iv" : "tRJCkaOXAqz8Yez/YdwPug==",
                     "key" : "openidm-sym-default",
-                    "mac" : "QP/jQnGl8tAHzfgksqUWWw=="
+                    "mac" : "ht1sFDGJhEr/oD7k9SDDIQ=="
                 }
             }
         },
@@ -62,7 +62,7 @@
         "passwordHashAlgorithm" : null,
         "usePagedResultControl" : true,
         "blockSize" : "100",
-        "uidAttribute" : "dn",
+        "uidAttribute" : "entryUUID",
         "maintainLdapGroupMembership" : false,
         "respectResourcePasswordPolicyChangeAfterReset" : false,
         "baseContextsToSynchronize" : [

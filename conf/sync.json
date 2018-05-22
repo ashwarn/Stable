@@ -1,11 +1,184 @@
 {
     "mappings" : [
         {
-            "target" : "system/OpenDJ/account",
-            "source" : "managed/user",
-            "name" : "managedUser_systemOpendjAccount",
-            "icon" : null,
+            "name" : "systemLdapAccounts_managedUser",
+            "source" : "system/OpenDJ/account",
+            "target" : "managed/user",
             "properties" : [
+                {
+                    "source" : "cn",
+                    "target" : "displayName"
+                },
+                {
+                    "source" : "description",
+                    "target" : "description"
+                },
+                {
+                    "source" : "givenName",
+                    "target" : "givenName"
+                },
+                {
+                    "source" : "mail",
+                    "target" : "mail"
+                },
+                {
+                    "source" : "telephoneNumber",
+                    "target" : "telephoneNumber"
+                },
+                {
+                    "source" : "sn",
+                    "target" : "sn"
+                },
+                {
+                    "source" : "uid",
+                    "target" : "userName"
+                },
+                {
+                    "source" : "kbaInfo",
+                    "target" : "kbaInfo",
+                    "transform" : {
+                        "type" : "groovy",
+                        "source" : "source ? source.collect{(new groovy.json.JsonSlurper()).parseText(it)} : []"
+                    }
+                }
+            ],
+            "policies" : [
+                {
+                    "situation" : "CONFIRMED",
+                    "action" : "UPDATE"
+                },
+                {
+                    "situation" : "FOUND",
+                    "action" : "UPDATE"
+                },
+                {
+                    "situation" : "ABSENT",
+                    "action" : "CREATE"
+                },
+                {
+                    "situation" : "AMBIGUOUS",
+                    "action" : "EXCEPTION"
+                },
+                {
+                    "situation" : "MISSING",
+                    "action" : "CREATE"
+                },
+                {
+                    "situation" : "SOURCE_MISSING",
+                    "action" : "DELETE"
+                },
+                {
+                    "situation" : "UNQUALIFIED",
+                    "action" : "IGNORE"
+                },
+                {
+                    "situation" : "UNASSIGNED",
+                    "action" : "IGNORE"
+                }
+            ],
+            "correlationQuery" : [
+                {
+                    "linkQualifier" : "default",
+                    "expressionTree" : {
+                        "any" : [
+                            "mail"
+                        ]
+                    },
+                    "mapping" : "systemLdapAccounts_managedUser",
+                    "type" : "text/javascript",
+                    "file" : "ui/correlateTreeToQueryFilter.js"
+                }
+            ],
+            "enableSync" : true
+        },
+        {
+            "name" : "managedUser_systemLdapAccounts",
+            "source" : "managed/user",
+            "target" : "system/OpenDJ/account",
+            "links" : "systemLdapAccounts_managedUser",
+            "properties" : [
+                {
+                    "source" : "givenName",
+                    "target" : "givenName"
+                },
+                {
+                    "source" : "sn",
+                    "target" : "sn"
+                },
+                {
+                    "source" : "",
+                    "transform" : {
+                        "type" : "text/javascript",
+                        "source" : "source.displayName || (source.givenName + ' ' + source.sn);"
+                    },
+                    "target" : "cn"
+                },
+                {
+                    "source" : "userName",
+                    "target" : "uid"
+                },
+                {
+                    "source" : "description",
+                    "target" : "description",
+                    "condition" : {
+                        "type" : "text/javascript",
+                        "source" : "!!object.description"
+                    }
+                },
+                {
+                    "source" : "mail",
+                    "target" : "mail"
+                },
+                {
+                    "source" : "password",
+                    "condition" : {
+                        "type" : "text/javascript",
+                        "source" : "object.password != null"
+                    },
+                    "transform" : {
+                        "type" : "text/javascript",
+                        "source" : "openidm.decrypt(source);"
+                    },
+                    "target" : "userPassword"
+                },
+                {
+                    "source" : "telephoneNumber",
+                    "target" : "telephoneNumber",
+                    "condition" : {
+                        "type" : "text/javascript",
+                        "source" : "!!object.telephoneNumber"
+                    }
+                },
+                {
+                    "target" : "aliasList",
+                    "transform" : {
+                        "type" : "text/javascript",
+                        "globals" : { },
+                        "source" : "var managedUser = openidm.read(\"managed/user/\" + source._id, null, [\"idps\"]);\n    \nif (managedUser.idps) {\n    managedUser.idps.map(function(relationship) {\n        var provider = relationship[\"_ref\"].split(\"/\");\n        return provider[1] + '-' + provider[2];\n    });\n} else {\n    [];\n}"
+                    },
+                    "source" : ""
+                },
+                {
+                    "target" : "objectClass",
+                    "default" : [
+                        "top",
+                        "inetuser",
+                        "person",
+                        "inetOrgPerson",
+                        "organizationalPerson",
+                        "iplanet-am-user-service",
+                        "kbaInfoContainer"
+                    ]
+                },
+                {
+                    "target" : "kbaInfo",
+                    "source" : "kbaInfo",
+                    "transform" : {
+                        "type" : "groovy",
+                        "globals" : { },
+                        "source" : "source ? (source.collect {(new groovy.json.JsonBuilder(it)).toString()}) : []"
+                    }
+                },
                 {
                     "target" : "dn",
                     "source" : "userName",
@@ -14,100 +187,48 @@
                         "globals" : { },
                         "source" : "\"uid=\" + source + \",ou=people,dc=skydentity,dc=com\""
                     }
-                },
-                {
-                    "target" : "cn",
-                    "transform" : {
-                        "type" : "text/javascript",
-                        "source" : "source.givenName + ' ' + source.sn"
-                    },
-                    "source" : ""
-                },
-                {
-                    "target" : "sn",
-                    "source" : "sn"
-                },
-                {
-                    "target" : "givenName",
-                    "source" : "givenName"
-                },
-                {
-                    "target" : "mail",
-                    "source" : "mail"
-                },
-                {
-                    "target" : "uid",
-                    "source" : "userName"
                 }
             ],
             "policies" : [
                 {
-                    "action" : "ASYNC",
-                    "situation" : "AMBIGUOUS"
+                    "situation" : "CONFIRMED",
+                    "action" : "UPDATE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "SOURCE_MISSING"
+                    "situation" : "FOUND",
+                    "action" : "LINK"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "MISSING"
+                    "situation" : "ABSENT",
+                    "action" : "CREATE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "FOUND_ALREADY_LINKED"
+                    "situation" : "AMBIGUOUS",
+                    "action" : "IGNORE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "UNQUALIFIED"
+                    "situation" : "MISSING",
+                    "action" : "IGNORE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "UNASSIGNED"
+                    "situation" : "SOURCE_MISSING",
+                    "action" : "DELETE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "LINK_ONLY"
+                    "situation" : "UNQUALIFIED",
+                    "action" : "IGNORE"
                 },
                 {
-                    "action" : "ASYNC",
-                    "situation" : "TARGET_IGNORED"
-                },
-                {
-                    "action" : "ASYNC",
-                    "situation" : "SOURCE_IGNORED"
-                },
-                {
-                    "action" : "ASYNC",
-                    "situation" : "ALL_GONE"
-                },
-                {
-                    "action" : "UPDATE",
-                    "situation" : "CONFIRMED"
-                },
-                {
-                    "action" : "UPDATE",
-                    "situation" : "FOUND"
-                },
-                {
-                    "action" : "CREATE",
-                    "situation" : "ABSENT"
+                    "situation" : "UNASSIGNED",
+                    "action" : "IGNORE"
                 }
             ],
-            "correlationQuery" : [
-                {
-                    "linkQualifier" : "default",
-                    "expressionTree" : {
-                        "all" : [
-                            "uid",
-                            "sn"
-                        ]
-                    },
-                    "mapping" : "managedUser_systemOpendjAccount",
-                    "type" : "text/javascript",
-                    "file" : "ui/correlateTreeToQueryFilter.js"
-                }
-            ]
+            "enableSync" : true,
+            "onCreate" : {
+                "type" : "text/javascript",
+                "globals" : { },
+                "source" : "target.dn = 'uid=' + source.userName + ',ou=user,dc=skydentity,dc=com';"
+            }
         }
     ]
 }

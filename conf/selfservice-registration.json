@@ -10,7 +10,7 @@
         {
             "name" : "idmUserDetails",
             "identityEmailField" : "mail",
-            "socialRegistrationEnabled" : false,
+            "socialRegistrationEnabled" : true,
             "registrationProperties" : [
                 "userName",
                 "givenName",
@@ -53,10 +53,11 @@
             "identityServiceUrl" : "managed/user"
         },
         {
-            "name" : "localAutoLogin",
+            "name" : "openAMAutoLogin",
             "identityUsernameField" : "userName",
             "identityPasswordField" : "password",
-            "successUrl" : ""
+            "openAMBaseUrl" : "https://openam-abrdemo-sandbox-43.adop.skydentity.com/openam/",
+            "authenticationEndpoint" : "json/realms/root/authenticate"
         }
     ],
     "snapshotToken" : {
