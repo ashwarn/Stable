@@ -1,0 +1,25 @@
+{
+    "host" : "smtp.mailtrap.io",
+    "port" : "25",
+    "auth" : {
+        "enable" : true,
+        "username" : "822392f42e762c",
+        "password" : {
+            "$crypto" : {
+                "type" : "x-simple-encryption",
+                "value" : {
+                    "cipher" : "AES/CBC/PKCS5Padding",
+                    "salt" : "sXykVEXhK1IquRLBNT8fpA==",
+                    "data" : "Ax/7J+oTTJInjQNcmlPpbflk+ZcrdrMQQilK+7407tM=",
+                    "iv" : "BGbvNsBc1SMiGdwa/QhYug==",
+                    "key" : "openidm-sym-default",
+                    "mac" : "Wkmv9WcPwTAB4hOSXFxC9A=="
+                }
+            }
+        }
+    },
+    "starttls" : {
+        "enable" : false
+    },
+    "from" : "iamadmin@accenturedemo.com"
+}

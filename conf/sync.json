@@ -1,0 +1,113 @@
+{
+    "mappings" : [
+        {
+            "target" : "system/OpenDJ/account",
+            "source" : "managed/user",
+            "name" : "managedUser_systemOpendjAccount",
+            "icon" : null,
+            "properties" : [
+                {
+                    "target" : "dn",
+                    "source" : "userName",
+                    "transform" : {
+                        "type" : "text/javascript",
+                        "globals" : { },
+                        "source" : "\"uid=\" + source + \",ou=people,dc=skydentity,dc=com\""
+                    }
+                },
+                {
+                    "target" : "cn",
+                    "transform" : {
+                        "type" : "text/javascript",
+                        "source" : "source.givenName + ' ' + source.sn"
+                    },
+                    "source" : ""
+                },
+                {
+                    "target" : "sn",
+                    "source" : "sn"
+                },
+                {
+                    "target" : "givenName",
+                    "source" : "givenName"
+                },
+                {
+                    "target" : "mail",
+                    "source" : "mail"
+                },
+                {
+                    "target" : "uid",
+                    "source" : "userName"
+                }
+            ],
+            "policies" : [
+                {
+                    "action" : "ASYNC",
+                    "situation" : "AMBIGUOUS"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "SOURCE_MISSING"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "MISSING"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "FOUND_ALREADY_LINKED"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "UNQUALIFIED"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "UNASSIGNED"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "LINK_ONLY"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "TARGET_IGNORED"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "SOURCE_IGNORED"
+                },
+                {
+                    "action" : "ASYNC",
+                    "situation" : "ALL_GONE"
+                },
+                {
+                    "action" : "UPDATE",
+                    "situation" : "CONFIRMED"
+                },
+                {
+                    "action" : "UPDATE",
+                    "situation" : "FOUND"
+                },
+                {
+                    "action" : "CREATE",
+                    "situation" : "ABSENT"
+                }
+            ],
+            "correlationQuery" : [
+                {
+                    "linkQualifier" : "default",
+                    "expressionTree" : {
+                        "all" : [
+                            "uid",
+                            "sn"
+                        ]
+                    },
+                    "mapping" : "managedUser_systemOpendjAccount",
+                    "type" : "text/javascript",
+                    "file" : "ui/correlateTreeToQueryFilter.js"
+                }
+            ]
+        }
+    ]
+}

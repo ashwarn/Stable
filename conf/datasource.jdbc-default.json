@@ -1,0 +1,25 @@
+{
+    "driverClass" : "com.mysql.jdbc.Driver",
+    "jdbcUrl" : "jdbc:mysql://openidm-abrdemo-sandbox-43-rds.adop.skydentity.com:3306/openidm?useSSL=false&allowMultiQueries=true&characterEncoding=utf8",
+    "databaseName" : "openidm",
+    "username" : "openidm",
+    "password" : {
+        "$crypto" : {
+            "type" : "x-simple-encryption",
+            "value" : {
+                "cipher" : "AES/CBC/PKCS5Padding",
+                "salt" : "jK+aWe6vaYbvWu+5pxmhTA==",
+                "data" : "seedB4rRUDAxlvsQ82K73A==",
+                "iv" : "oKcJIxjjMcyGWQWSczW//w==",
+                "key" : "openidm-sym-default",
+                "mac" : "9tCHV13M4HdVMeOPubdxdA=="
+            }
+        }
+    },
+    "connectionTimeout" : 30000,
+    "connectionPool" : {
+        "type" : "hikari",
+        "minimumIdle" : 20,
+        "maximumPoolSize" : 50
+    }
+}
